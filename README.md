@@ -13,3 +13,6 @@
 1. Soy el mejor
 2. Soy el mejor
 3. Soy el mejor
+
+---
+![Durisimo pa](D:\tfc-sergio-estrella\Game\client\img\tfc-logo.jpg)
