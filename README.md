@@ -15,4 +15,4 @@
 3. Soy el mejor
 
 ---
-![Durisimo pa](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ebay.es%2Fitm%2F164931731652&psig=AOvVaw3yW_iDQD8-_FxkX4woifZ2&ust=1683758884613000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCPiY7umo6f4CFQAAAAAdAAAAABAT)
+![Durisimo pa](https://i.kym-cdn.com/photos/images/facebook/002/500/840/763)
