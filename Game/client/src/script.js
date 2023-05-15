@@ -70,12 +70,6 @@ class Obstacle {
     draw(context){
         context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.collisionX, this.collisionY, this.width, this.height);
         context.beginPath();
-        context.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, Math.PI * 2);
-        context.save()
-        context.globalAlpha = 0.5;
-        context.fill();
-        context.restore();
-        context.stroke();
     }
 }
 
@@ -163,4 +157,19 @@ function animate(){
 
 animate();
 
+$(function() {  
+    $('.btn-6')
+      .on('mouseenter', function(e) {
+              var parentOffset = $(this).offset(),
+                relX = e.pageX - parentOffset.left,
+                relY = e.pageY - parentOffset.top;
+              $(this).find('span').css({top:relY, left:relX})
+      })
+      .on('mouseout', function(e) {
+              var parentOffset = $(this).offset(),
+                relX = e.pageX - parentOffset.left,
+                relY = e.pageY - parentOffset.top;
+          $(this).find('span').css({top:relY, left:relX})
+      });
+  });
 })
