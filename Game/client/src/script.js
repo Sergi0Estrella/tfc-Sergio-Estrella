@@ -1,4 +1,5 @@
 window.addEventListener('load',()=>{
+
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext('2d');
     canvas.width = 1280;
@@ -19,6 +20,7 @@ class Player{
         this.dx = 0;
         this.dy = 0;
         this.speedModifier = 5;
+        this.src = "../"
     }
 
     draw(context){
@@ -147,8 +149,6 @@ const game = new Game(canvas);
 game.init();
 game.render(ctx);
 
-console.log(game);
-
 function animate(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.render(ctx);
@@ -172,4 +172,50 @@ $(function() {
           $(this).find('span').css({top:relY, left:relX})
       });
   });
-})
+});
+
+$(document).ready(function() {
+    $('#dice-btn').click(function() {
+        var divCreado = false;
+        var $dadosDiv;
+    
+        $('#crearDiv').click(function() {
+          if (divCreado) {
+            $dadosDiv.remove();
+            divCreado = false;
+            return;
+          }
+    
+          $dadosDiv = $('<div>', {id: 'dadosDiv'});
+          var $cerrar = $('<span>', {class: 'cerrar'}).text('X');
+          var $resultado = $('<div>', {class: 'resultado'});
+          var $botonTirar = $('<button>').text('Tirar Dados');
+          var $imagen1 = $('<img>').attr('src', 'imagen1.png');
+          var $imagen2 = $('<img>').attr('src', 'imagen2.png');
+    
+          $dadosDiv.append($cerrar);
+          $dadosDiv.append($resultado);
+          $dadosDiv.append($botonTirar);
+          $dadosDiv.append($imagen1);
+          $dadosDiv.append($imagen2);
+          $('body').append($dadosDiv);
+    
+          $botonTirar.click(function() {
+            var resultado1 = Math.floor(Math.random() * 6) + 1;
+            var resultado2 = Math.floor(Math.random() * 6) + 1;
+            $imagen1.attr('src', 'imagen' + resultado1 + '.png');
+            $imagen2.attr('src', 'imagen' + resultado2 + '.png');
+            $resultado.text('Resultado: ' + (resultado1 + resultado2));
+          });
+    
+          $cerrar.click(function() {
+            $dadosDiv.remove();
+            divCreado = false;
+          });
+    
+          divCreado = true;
+        });
+      });
+});
+
+

@@ -62,6 +62,26 @@ a {
   border: 1px solid currentColor;
 }
 
+.btn-0 {
+  color: #7f7882;
+}
+.btn-0:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #3e3a41;
+  transform: translateX(-100%);
+}
+.btn-0:hover {
+  color: #d9d7da;
+}
+.btn-0:hover:before {
+  transform: translateX(0);
+}
+
 .btn-5 {
   color: #48cf52;
 }
@@ -222,4 +242,10 @@ a {
   position: absolute;
   left: 0%;
   top: 20%;
+}
+
+#dice-btn{
+  position: absolute;
+  left: 0%;
+  top: 35%;
 }
