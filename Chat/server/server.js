@@ -41,5 +41,5 @@ server.listen(8080, () => {
 });
 
 app.get("/",(request, response)=>{
-  response.sendFile("C:/Users/sestrella/IdeaProjects/tfc-sergio-estrella/Chat/client/chat.html");
+  response.sendFile("D:/tfc-sergio-estrella/Chat/client/chat.html");
 })

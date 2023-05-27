@@ -1,6 +1,8 @@
 const http = require('http');
 const express = require('express');
+const socketio = require('socket.io');
 
+const RpsGame = require('./rps-game');
 
 const app = express();
 
@@ -11,12 +13,29 @@ app.use(express.static(clientPath));
 
 const server = http.createServer(app);
 
+const io = socketio(server);
+
+let waitingPlayer = null;
+
+io.on('connection', (sock) => {
+  if (waitingPlayer) {
+    new RpsGame(waitingPlayer, sock);
+    waitingPlayer = null;
+  } else {
+    waitingPlayer = sock;
+  }
+
+  sock.on('message', (text) => {
+    io.emit('message', text);
+  });
+});
+
 server.on('error', (err) => {
   console.error('Server error:', err);
 });
 
 server.listen(8080, () => {
-  console.log('Todo va bien');
+  console.log('RPS started on 8080');
 });
 
 app.get("/",(request, response)=>{

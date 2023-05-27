@@ -175,6 +175,9 @@ $(function() {
 });
 
 $(document).ready(function() {
+
+    //Function to pop a little window that shows a pair of dices
+
     $('#dice-btn').click(function() {
         var divCreado = false;
         var $dadosDiv;
@@ -216,6 +219,90 @@ $(document).ready(function() {
           divCreado = true;
         });
       });
+
+      
+    //Function to pop the chat on screen
+
+    $('#chat-btn').click(function(){
+
+        const chatDiv = document.getElementById('chat');
+
+        const canvasDiv = document.getElementById('canvas1');
+
+        canvasDiv.style.zIndex = -1;
+
+        chatDiv.style.zIndex = 1;
+
+        chatDiv.innerHTML = `<!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <title>RPS</title>
+            <link rel="stylesheet" href="styles/chat.css">
+          </head>
+          <body>
+            <div class="rps-wrapper">
+              <ul id="events"></ul>
+              <div class="controls">
+                <div class="chat-wrapper">
+                  <form id="chat-form">
+                    <input id="chat" autocomplete="off" title="chat"/>
+                    <button id="say">Say</button>
+                  </form>
+                </div>
+        
+                <div class="button-wrapper">
+                  <button id="rock" class="turn">Rock</button>
+                  <button id="paper" class="turn">Paper</button>
+                  <button id="scissors" class="turn">Scissors</button>
+                </div>
+              </div>
+            </div>
+    
+          </body>
+        </html>`;
+
+        const writeEvent = (text) => {
+          // <ul> element
+          const parent = document.querySelector('#events');
+        
+          // <li> element
+          const el = document.createElement('li');
+          el.innerHTML = text;
+        
+          parent.appendChild(el);
+        };
+        
+        const onFormSubmitted = (e) => {
+          e.preventDefault();
+        
+          const input = document.querySelector('#chat');
+          const text = input.value;
+          input.value = '';
+          sock.emit('message', text);
+
+        };
+        
+        const addButtonListeners = () => {
+          ['rock', 'paper', 'scissors'].forEach((id) => {
+            const button = document.getElementById(id);
+            button.addEventListener('click', () => {
+              sock.emit('turn', id);
+            });
+          });
+        };
+        
+        writeEvent('Welcome to the chat, be polite to other players');
+        
+        const sock = io();
+        sock.on('message', writeEvent);
+      
+        document
+          .querySelector('#chat-form')
+          .addEventListener('submit', onFormSubmitted);
+        
+        addButtonListeners();
+      })
+
 });
 
 
