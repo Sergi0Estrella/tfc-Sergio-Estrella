@@ -179,46 +179,52 @@ $(document).ready(function() {
     //Function to pop a little window that shows a pair of dices
 
     $('#dice-btn').click(function() {
-        var divCreado = false;
-        var $dadosDiv;
-    
-        $('#crearDiv').click(function() {
-          if (divCreado) {
-            $dadosDiv.remove();
-            divCreado = false;
-            return;
-          }
-    
-          $dadosDiv = $('<div>', {id: 'dadosDiv'});
-          var $cerrar = $('<span>', {class: 'cerrar'}).text('X');
-          var $resultado = $('<div>', {class: 'resultado'});
-          var $botonTirar = $('<button>').text('Tirar Dados');
-          var $imagen1 = $('<img>').attr('src', 'imagen1.png');
-          var $imagen2 = $('<img>').attr('src', 'imagen2.png');
-    
-          $dadosDiv.append($cerrar);
-          $dadosDiv.append($resultado);
-          $dadosDiv.append($botonTirar);
-          $dadosDiv.append($imagen1);
-          $dadosDiv.append($imagen2);
-          $('body').append($dadosDiv);
-    
-          $botonTirar.click(function() {
-            var resultado1 = Math.floor(Math.random() * 6) + 1;
-            var resultado2 = Math.floor(Math.random() * 6) + 1;
-            $imagen1.attr('src', 'imagen' + resultado1 + '.png');
-            $imagen2.attr('src', 'imagen' + resultado2 + '.png');
-            $resultado.text('Resultado: ' + (resultado1 + resultado2));
-          });
-    
-          $cerrar.click(function() {
-            $dadosDiv.remove();
-            divCreado = false;
-          });
-    
-          divCreado = true;
-        });
+      var overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      
+      var closeBtn = document.createElement('span');
+      closeBtn.className = 'close-btn';
+      closeBtn.innerHTML = 'x';
+      closeBtn.addEventListener('click', function() {
+        document.body.removeChild(overlay);
       });
+      
+      var dice1 = document.createElement('img');
+      dice1.src = '../img/1.png';
+      dice1.className = 'dice';
+      
+      var dice2 = document.createElement('img');
+      dice2.src = '../img/1.png';
+      dice2.className = 'dice';
+
+      var resultText = document.createElement('p');
+      resultText.className = 'result-text';
+      
+      var rollBtn = document.createElement('button');
+      rollBtn.innerHTML = 'Tirar';
+      rollBtn.addEventListener('click', function() {
+        var result1 = Math.floor(Math.random() * 6) + 1;
+        var result2 = Math.floor(Math.random() * 6) + 1;
+        var total = result1 + result2;
+        
+        dice1.src = `../img/${result1}.png`;
+        dice2.src = `../img/${result2}.png`;
+
+        resultText.innerHTML = 'Resultado: ' + total;
+      });
+      
+      rollBtn.addEventListener('click', function() {
+        rollBtn.innerHTML = 'Tirar otra vez';
+        rollBtn.append(resultText);
+      });
+      
+      overlay.appendChild(closeBtn);
+      overlay.appendChild(dice1);
+      overlay.appendChild(dice2);
+      overlay.appendChild(rollBtn);
+      
+      document.body.appendChild(overlay);
+    });
 
       
     //Function to pop the chat on screen
@@ -245,7 +251,7 @@ $(document).ready(function() {
               <div class="controls">
                 <div class="chat-wrapper">
                   <form id="chat-form">
-                    <input id="chat" autocomplete="off" title="chat"/>
+                    <input id="text" autocomplete="off" title="chat"/>
                     <button id="say">Say</button>
                   </form>
                 </div>
@@ -257,7 +263,8 @@ $(document).ready(function() {
                 </div>
               </div>
             </div>
-    
+        
+            <script src="/socket.io/socket.io.js"></script>
           </body>
         </html>`;
 
@@ -275,11 +282,11 @@ $(document).ready(function() {
         const onFormSubmitted = (e) => {
           e.preventDefault();
         
-          const input = document.querySelector('#chat');
+          const input = document.querySelector('#text');
           const text = input.value;
           input.value = '';
+        
           sock.emit('message', text);
-
         };
         
         const addButtonListeners = () => {
@@ -291,18 +298,57 @@ $(document).ready(function() {
           });
         };
         
-        writeEvent('Welcome to the chat, be polite to other players');
+        writeEvent('Welcome to RPS');
         
         const sock = io();
         sock.on('message', writeEvent);
-      
+        
         document
           .querySelector('#chat-form')
           .addEventListener('submit', onFormSubmitted);
         
         addButtonListeners();
+
       })
 
+      //Function that allows the user to change the current map
+      $('#changeMap-btn').click(function() {
+        // Crea el div del mapa
+        var mapDiv = $('<div></div>').addClass('map-overlay');
+    
+        // Crea la x para cerrar el div
+        var closeBtn = $('<span></span>').addClass('close-btn').text('x');
+        closeBtn.click(function() {
+          mapDiv.remove();
+        });
+    
+        // Crea las imágenes del mapa
+        var image1 = $('<img>').attr('src', '../img/1.png');
+        var image2 = $('<img>').attr('src', '../img/2.png');
+        var image3 = $('<img>').attr('src', '../img/3.png');
+        var image4 = $('<img>').attr('src', '../img/4.png');
+    
+        // Crea el botón de cambiar mapa
+        var changeMapBtn = $('<button></button>').text('Cambiar mapa');
+    
+        // Agrega los elementos al div del mapa
+        mapDiv.append(closeBtn);
+    
+        var row1 = $('<div></div>').addClass('row');
+        row1.append(image1);
+        row1.append(image2);
+        mapDiv.append(row1);
+    
+        var row2 = $('<div></div>').addClass('row');
+        row2.append(image3);
+        row2.append(image4);
+        mapDiv.append(row2);
+    
+        mapDiv.append(changeMapBtn);
+    
+        // Agrega el div del mapa al cuerpo del documento
+        $('body').append(mapDiv);
+      });
 });
 
 

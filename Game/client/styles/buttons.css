@@ -82,6 +82,34 @@ a {
   transform: translateX(0);
 }
 
+.btn-3:before, .btn-3:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-top: 40px solid #0e584b;
+  border-bottom: 40px solid #0e584b;
+}
+.btn-3:before {
+  border-right: 40px solid transparent;
+  transform: translateX(-100%);
+}
+.btn-3:after {
+  border-left: 40px solid transparent;
+  transform: translateX(100%);
+}
+.btn-3:hover {
+  color: #c5e4df;
+}
+.btn-3:hover:before {
+  transform: translateX(-30%);
+}
+.btn-3:hover:after {
+  transform: translateX(30%);
+}
+
 .btn-5 {
   color: #48cf52;
 }
@@ -238,14 +266,20 @@ a {
   left: 0%;
 }
 
-#exit-btn{
+#dice-btn{
   position: absolute;
   left: 0%;
   top: 20%;
 }
 
-#dice-btn{
+#changeMap-btn{
   position: absolute;
   left: 0%;
   top: 35%;
+}
+
+#exit-btn{
+  position: absolute;
+  left: 0%;
+  top: 50%;
 }
