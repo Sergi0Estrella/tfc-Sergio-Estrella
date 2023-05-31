@@ -5,7 +5,7 @@ window.addEventListener('load',()=>{
     canvas.width = 1280;
     canvas.height = 720;
 
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "cyan";
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
 
@@ -176,9 +176,25 @@ $(function() {
 
 $(document).ready(function() {
 
+  function changeBackground(imageUrl) {
+
+    const sock = io();
+
+    const canvas1 = document.getElementById('canvas1');
+
+    // Cambia la imagen de fondo del elemento
+    canvas1.style.backgroundImage = `url(../img/${imageUrl}.jpg)`;
+  
+    // Emitir el evento al servidor con la nueva imagen
+    sock.emit('changeBackground', imageUrl);
+  }
+
     //Function to pop a little window that shows a pair of dices
 
     $('#dice-btn').click(function() {
+
+      const sock = io();
+
       var overlay = document.createElement('div');
       overlay.className = 'overlay';
       
@@ -205,7 +221,7 @@ $(document).ready(function() {
       rollBtn.addEventListener('click', function() {
         var result1 = Math.floor(Math.random() * 6) + 1;
         var result2 = Math.floor(Math.random() * 6) + 1;
-        var total = result1 + result2;
+        total = result1 + result2;
         
         dice1.src = `../img/${result1}.png`;
         dice2.src = `../img/${result2}.png`;
@@ -216,6 +232,7 @@ $(document).ready(function() {
       rollBtn.addEventListener('click', function() {
         rollBtn.innerHTML = 'Tirar otra vez';
         rollBtn.append(resultText);
+        sock.emit('diceResult', total);
       });
       
       overlay.appendChild(closeBtn);
@@ -224,6 +241,14 @@ $(document).ready(function() {
       overlay.appendChild(rollBtn);
       
       document.body.appendChild(overlay);
+
+      sock.on('showResultToAll', function(result) {
+        showResult(result);
+      });
+      
+      function showResult(result) {
+        alert("El jugador ha sacado un " + result);
+      }
     });
 
       
@@ -263,8 +288,7 @@ $(document).ready(function() {
                 </div>
               </div>
             </div>
-        
-            <script src="/socket.io/socket.io.js"></script>
+  
           </body>
         </html>`;
 
@@ -323,13 +347,10 @@ $(document).ready(function() {
         });
     
         // Crea las imágenes del mapa
-        var image1 = $('<img>').attr('src', '../img/1.png');
-        var image2 = $('<img>').attr('src', '../img/2.png');
-        var image3 = $('<img>').attr('src', '../img/3.png');
-        var image4 = $('<img>').attr('src', '../img/4.png');
-    
-        // Crea el botón de cambiar mapa
-        var changeMapBtn = $('<button></button>').text('Cambiar mapa');
+        var image1 = $('<img>').attr('src', '../img/tabern.jpg').attr('id', 'tabern');
+        var image2 = $('<img>').attr('src', '../img/sea.jpg').attr('id', 'sea');
+        var image3 = $('<img>').attr('src', '../img/castle.jpg').attr('id', 'castle');
+        var image4 = $('<img>').attr('src', '../img/fields.jpg').attr('id', 'fields');
     
         // Agrega los elementos al div del mapa
         mapDiv.append(closeBtn);
@@ -343,8 +364,22 @@ $(document).ready(function() {
         row2.append(image3);
         row2.append(image4);
         mapDiv.append(row2);
-    
-        mapDiv.append(changeMapBtn);
+
+        image1.click(function(){
+          changeBackground(image1.id);
+        })
+
+        image2.click(function(){
+          changeBackground(image2.id);
+        })
+
+        image3.click(function(){
+          changeBackground(image3.id);
+        })
+
+        image4.click(function(){
+          changeBackground(image4.id);
+        })
     
         // Agrega el div del mapa al cuerpo del documento
         $('body').append(mapDiv);

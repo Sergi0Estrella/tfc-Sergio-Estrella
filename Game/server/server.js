@@ -28,6 +28,14 @@ io.on('connection', (sock) => {
   sock.on('message', (text) => {
     io.emit('message', text);
   });
+
+  sock.on('diceResult', (result) => {
+    io.emit('showResultToAll', result);
+  });
+
+  sock.on('changeBackground', (imageUrl) => {
+    io.emit('backgroundChange', imageUrl);
+  });
 });
 
 server.on('error', (err) => {
