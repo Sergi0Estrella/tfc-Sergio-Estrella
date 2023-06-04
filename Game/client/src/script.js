@@ -54,27 +54,6 @@ class Player{
     }
 }
 
-class Obstacle {
-    constructor(game){
-        this.game = game;
-        this.collisionX = Math.random() * this.game.width;
-        this.collisionY = Math.random() * this.game.height;
-        this.collisionRadius = 60;
-        this.image = document.getElementById("obstacles");
-        this.spriteWidth = 250;
-        this.spriteHeight = 250;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
-        this.spriteX = this.collisionX - this.width * 0.5;
-        this.spriteY = this.collisionY - this.height * 0.5;
-        
-    }
-    draw(context){
-        context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.collisionX, this.collisionY, this.width, this.height);
-        context.beginPath();
-    }
-}
-
 class Game{
     constructor(canvas){
         this.canvas = canvas;
@@ -118,35 +97,9 @@ class Game{
         this.obstacles.forEach((obstacle)=>obstacle.draw(context));
     }
 
-    init(){
-        let attempts = 0;
-        
-        while(this.obstacles.length < this.numberOfObstacles && attempts < 500){
-            let testObstacle = new Obstacle(this);
-            let overlap = false;
-
-            this.obstacles.forEach(obstacle =>{
-                const dx = testObstacle.collisionX - obstacle.collisionX;
-                const dy = testObstacle.collisionY - obstacle.collisionY;
-                const distance = Math.hypot(dy, dx);
-                const sumOfRadius = testObstacle.collisionRadius + obstacle.collisionRadius;
-
-                if(distance < sumOfRadius){
-                    overlap = true;
-                }
-            });
-
-            if(!overlap){
-                this.obstacles.push(testObstacle);
-            }
-
-            attempts++;
-        }
-    }
 }
 
 const game = new Game(canvas);
-game.init();
 game.render(ctx);
 
 function animate(){
@@ -176,18 +129,31 @@ $(function() {
 
 $(document).ready(function() {
 
-  function changeBackground(imageUrl) {
-
-    const sock = io();
-
-    const canvas1 = document.getElementById('canvas1');
-
-    // Cambia la imagen de fondo del elemento
-    canvas1.style.backgroundImage = `url(../img/${imageUrl}.jpg)`;
+  const sock = io();
   
-    // Emitir el evento al servidor con la nueva imagen
-    sock.emit('changeBackground', imageUrl);
+  function showResult(result) {
+    var notification = $('#notification');
+    notification.text("Se ha hecho una tirada de " + result);
+    notification.fadeIn();
+
+    setTimeout(function() {
+    notification.fadeOut();
+    }, 3000);
   }
+
+  sock.on('showResultToAll', function(result) {
+    showResult(result);
+  });
+
+  function changeBackground(imageUrl) {
+    console.log("tetas");
+    const canvas1 = document.getElementById('canvas1');
+    canvas1.style.backgroundImage = `url(../img/${imageUrl}.jpg)`;
+  }
+
+  sock.on('backgroundChange', function(newBackground){
+    changeBackground(newBackground);
+  })
 
     //Function to pop a little window that shows a pair of dices
 
@@ -241,14 +207,6 @@ $(document).ready(function() {
       overlay.appendChild(rollBtn);
       
       document.body.appendChild(overlay);
-
-      sock.on('showResultToAll', function(result) {
-        showResult(result);
-      });
-      
-      function showResult(result) {
-        alert("El jugador ha sacado un " + result);
-      }
     });
 
       
@@ -337,6 +295,9 @@ $(document).ready(function() {
 
       //Function that allows the user to change the current map
       $('#changeMap-btn').click(function() {
+
+        const sock = io();
+
         // Crea el div del mapa
         var mapDiv = $('<div></div>').addClass('map-overlay');
     
@@ -366,19 +327,19 @@ $(document).ready(function() {
         mapDiv.append(row2);
 
         image1.click(function(){
-          changeBackground(image1.id);
+          sock.emit('changeBackground', "tabern");
         })
 
         image2.click(function(){
-          changeBackground(image2.id);
+          sock.emit('changeBackground', "sea");
         })
 
         image3.click(function(){
-          changeBackground(image3.id);
+          sock.emit('changeBackground', "castle");
         })
 
         image4.click(function(){
-          changeBackground(image4.id);
+          sock.emit('changeBackground', "fields");
         })
     
         // Agrega el div del mapa al cuerpo del documento

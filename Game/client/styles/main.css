@@ -5,7 +5,7 @@
 }
 
 #canvas1{
-    background: url('../img/background.png');
+    background: url('../img/castle.jpg');
     position: absolute;
     top: 50%;
     left: 50%;
@@ -130,5 +130,15 @@
     color: white;
     border: none;
     cursor: pointer;
+  }
+
+  #notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    display: none;
   }
 

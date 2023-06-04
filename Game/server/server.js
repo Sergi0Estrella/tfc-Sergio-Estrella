@@ -33,8 +33,8 @@ io.on('connection', (sock) => {
     io.emit('showResultToAll', result);
   });
 
-  sock.on('changeBackground', (imageUrl) => {
-    io.emit('backgroundChange', imageUrl);
+  sock.on('changeBackground', (newBackground) => {
+    io.emit('backgroundChange', newBackground);
   });
 });
 
