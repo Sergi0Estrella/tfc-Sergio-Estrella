@@ -1,13 +1,88 @@
 window.addEventListener('load',()=>{
 
+    const sock = io();
+
+
     const canvas = document.getElementById("canvas1");
     const ctx = canvas.getContext('2d');
     canvas.width = 1280;
     canvas.height = 720;
 
-    ctx.fillStyle = "cyan";
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
+
+
+    function drawPlayer(player) {
+      const canvas = document.getElementById("canvas1");
+      const ctx = canvas.getContext('2d');
+    
+      // Dibuja el jugador en el canvas
+      ctx.beginPath();
+      ctx.arc(player.position.x, player.position.y, 30, 0, Math.PI * 2);
+      
+      const colours = ["cyan","red","yellow","green","pink","orange","purple","blue","gray","white","black"]
+
+      const colour = parseInt(Math.random()*10)+1;
+
+      ctx.fillStyle = colours[colour];
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.fill();
+      ctx.stroke();
+
+      console.log("La reconcha de tu vieja");
+    }
+
+    function updatePlayerPosition(player) {
+      const canvas = document.getElementById("canvas1");
+      const ctx = canvas.getContext('2d');
+    
+      // Borra el jugador de su posición anterior
+      ctx.clearRect(player.prevPosition.x - 31, player.prevPosition.y - 31, 62, 62);
+    
+      // Dibuja el jugador en su nueva posición
+      ctx.beginPath();
+      ctx.arc(player.position.x, player.position.y, 30, 0, Math.PI * 2);
+      ctx.fillStyle = "cyan";
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.fill();
+      ctx.stroke();
+    }
+
+    // Manejar información de jugadores existentes
+    sock.on('existingPlayers', (players) => {
+      players.forEach((player) => {
+        if (player.id !== sock.id) {
+          drawPlayer(player);
+        }
+      });
+    });
+
+    // Manejar información de nuevo jugador
+    sock.on('newPlayer', (player) => {
+
+      //Igual si mando el nuevo jugador dibujado al servidor y este se lo manda a todos los usuarios funciona
+
+      drawPlayer(player);
+    });
+
+    // Manejar movimiento de jugador
+    sock.on('playerMoved', (player) => {
+      updatePlayerPosition(player);
+    });
+
+    // Manejar desconexión de jugador
+    sock.on('playerDisconnected', (playerId) => {
+      // Eliminar al jugador del canvas
+      // Implementa la lógica para eliminar al jugador del canvas
+    });
+
+    // Enviar movimiento del jugador al servidor
+    function sendMove(position) {
+      sock.emit('move', position);
+    }
 
 class Player{
     constructor(game){
@@ -91,12 +166,16 @@ class Game{
         });
 
     }
+
+    getPlayer() {
+      return this.player;
+    }
+
     render(context){
         this.player.draw(context);
         this.player.update();
         this.obstacles.forEach((obstacle)=>obstacle.draw(context));
     }
-
 }
 
 const game = new Game(canvas);
@@ -125,6 +204,7 @@ $(function() {
           $(this).find('span').css({top:relY, left:relX})
       });
   });
+
 });
 
 $(document).ready(function() {
@@ -146,7 +226,6 @@ $(document).ready(function() {
   });
 
   function changeBackground(imageUrl) {
-    console.log("tetas");
     const canvas1 = document.getElementById('canvas1');
     canvas1.style.backgroundImage = `url(../img/${imageUrl}.jpg)`;
   }
@@ -346,5 +425,3 @@ $(document).ready(function() {
         $('body').append(mapDiv);
       });
 });
-
-
