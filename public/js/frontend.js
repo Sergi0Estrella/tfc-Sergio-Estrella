@@ -540,4 +540,19 @@ window.addEventListener('load',()=>{
             divToUpdate.style.top = top;
           }
         });
+
+        function eliminateDiv(divId){
+          const eliminatedDiv = divId;
+          socket.emit('eliminateDiv', eliminatedDiv);
+        }
+
+        socket.on('eliminateDiv', (divId)=>{
+          console.log(divId);
+          document.getElementById(divId).remove();
+        });
+
+        $('#keeseContainer').dblclick(()=>eliminateDiv('keeseContainer'));
+        $('#bokoblinContainer').dblclick(()=>eliminateDiv('bokoblinContainer'));
+        $('#stalfosContainer').dblclick(()=>eliminateDiv('stalfosContainer'));
+        $('#setaDarkSoulsContainer').dblclick(()=>eliminateDiv('setaDarkSoulsContainer'));
   });

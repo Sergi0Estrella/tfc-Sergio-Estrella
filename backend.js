@@ -86,6 +86,10 @@ io.on('connection', (socket) => {
     io.emit('backgroundChange', newBackground);
   });
 
+  socket.on('eliminateDiv', (divId) =>{
+    io.emit('eliminateDiv', divId);
+  })
+
 })
 
 setInterval(() => {
