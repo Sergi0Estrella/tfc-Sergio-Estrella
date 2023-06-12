@@ -21,8 +21,8 @@ socket.on('updatePlayers', (backEndPlayers) => {
       frontEndPlayers[id] = new Player({
         x: backEndPlayer.x,
         y: backEndPlayer.y,
-        width: 200,
-        height: 200,
+        width: 100,
+        height: 100,
         src: "../img/barbarian.png"
       })
     } else {
