@@ -44,12 +44,12 @@ socket.on('updatePlayers', (backEndPlayers) => {
       } else {
         // for all other players
 
-        // gsap.to(frontEndPlayers[id], {
-        //   x: backEndPlayer.x,
-        //   y: backEndPlayer.y,
-        //   duration: 0.015,
-        //   ease: 'linear'
-        // })
+        gsap.to(frontEndPlayers[id], {
+          x: backEndPlayer.x,
+          y: backEndPlayer.y,
+          duration: 0.015,
+          ease: 'linear'
+        })
       }
     }
   }
@@ -61,19 +61,19 @@ socket.on('updatePlayers', (backEndPlayers) => {
   }
 })
 
-let animationId
-function animate() {
-  animationId = requestAnimationFrame(animate)
-  c.fillStyle = 'rgba(0, 0, 0, 0)'
-  c.fillRect(0, 0, canvas.width, canvas.height)
+// let animationId
+// function animate() {
+//   animationId = requestAnimationFrame(animate)
+//   c.fillStyle = 'rgba(0, 0, 0, 0)'
+//   c.fillRect(0, 0, canvas.width, canvas.height)
 
-  for (const id in frontEndPlayers) {
-    const frontEndPlayer = frontEndPlayers[id]
-    frontEndPlayer.draw()
-  }
-}
+//   for (const id in frontEndPlayers) {
+//     const frontEndPlayer = frontEndPlayers[id]
+//     frontEndPlayer.draw()
+//   }
+// }
 
-animate()
+// animate()
 
 const keys = {
   w: {
