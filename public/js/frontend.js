@@ -229,7 +229,7 @@ window.addEventListener('load',()=>{
         dice1.className = 'dice';
         
         var dice2 = document.createElement('img');
-        dice2.src = '../img/1.png';
+        dice2.src = '../img/1.PNG';
         dice2.className = 'dice';
   
         var resultText = document.createElement('p');
@@ -242,8 +242,8 @@ window.addEventListener('load',()=>{
           var result2 = Math.floor(Math.random() * 6) + 1;
           total = result1 + result2;
           
-          dice1.src = `../img/${result1}.png`;
-          dice2.src = `../img/${result2}.png`;
+          dice1.src = `../img/${result1}.PNG`;
+          dice2.src = `../img/${result2}.PNG`;
   
           resultText.innerHTML = 'Resultado: ' + total;
         });
