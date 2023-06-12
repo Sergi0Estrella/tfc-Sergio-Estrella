@@ -288,7 +288,7 @@ window.addEventListener('load',()=>{
                   <div class="chat-wrapper">
                     <form id="chat-form">
                       <input id="text" autocomplete="off" title="chat"/>
-                      <button id="say">Say</button>
+                      <button id="say">Negros de mierda</button>
                     </form>
                   </div>
           
