@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
   backEndPlayers[socket.id] = {
     x: 500 * Math.random(),
     y: 500 * Math.random(),
+    height: 200,
     sequenceNumber: 0
   }
 
