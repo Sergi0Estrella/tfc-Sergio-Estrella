@@ -225,11 +225,11 @@ window.addEventListener('load',()=>{
         });
         
         var dice1 = document.createElement('img');
-        dice1.src = '../../img/1.png';
+        dice1.src = '../img/1.png';
         dice1.className = 'dice';
         
         var dice2 = document.createElement('img');
-        dice2.src = '../../img/1.png';
+        dice2.src = '../img/1.png';
         dice2.className = 'dice';
   
         var resultText = document.createElement('p');
@@ -242,8 +242,8 @@ window.addEventListener('load',()=>{
           var result2 = Math.floor(Math.random() * 6) + 1;
           total = result1 + result2;
           
-          dice1.src = `../../img/${result1}.png`;
-          dice2.src = `../../img/${result2}.png`;
+          dice1.src = `../img/${result1}.png`;
+          dice2.src = `../img/${result2}.png`;
   
           resultText.innerHTML = 'Resultado: ' + total;
         });
@@ -288,7 +288,7 @@ window.addEventListener('load',()=>{
                   <div class="chat-wrapper">
                     <form id="chat-form">
                       <input id="text" autocomplete="off" title="chat"/>
-                      <button id="say">Negros de mierda</button>
+                      <button id="say">Say</button>
                     </form>
                   </div>
           
