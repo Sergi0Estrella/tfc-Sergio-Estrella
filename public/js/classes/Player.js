@@ -10,6 +10,6 @@ class Player {
 
   draw() {
     // Dibuja la imagen en el lienzo
-    context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    c.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
