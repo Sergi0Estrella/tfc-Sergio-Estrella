@@ -225,7 +225,7 @@ window.addEventListener('load',()=>{
         });
         
         var dice1 = document.createElement('img');
-        dice1.src = './img/1.png';
+        dice1.src = '../img/tabern.jpg';
         dice1.className = 'dice';
         
         var dice2 = document.createElement('img');
