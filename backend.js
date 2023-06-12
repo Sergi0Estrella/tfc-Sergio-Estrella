@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
   backEndPlayers[socket.id] = {
     x: 500 * Math.random(),
     y: 500 * Math.random(),
-    color: `hsl(${360 * Math.random()}, 100%, 50%)`,
+    color: `rgb(${(Math.random()*244)+1}, ${(Math.random()*244)+1}, ${(Math.random()*244)+1})`,
     sequenceNumber: 0
   }
 
