@@ -23,7 +23,7 @@ socket.on('updatePlayers', (backEndPlayers) => {
         y: backEndPlayer.y,
         width: 50,
         height: 50,
-        src: "../img/barbarian.png"
+        src: "../img/mage.png"
       })
     } else {
       if (id === socket.id) {
