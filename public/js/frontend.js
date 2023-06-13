@@ -14,6 +14,12 @@ const y = canvas.height / 2
 const frontEndPlayers = {}
 
 socket.on('updatePlayers', (backEndPlayers) => {
+
+  const canvas = document.querySelector("canvas");
+  const c = canvas.getContext('2d');
+
+  c.clearRect(0, 0, canvas.width, canvas.height);
+
   for (const id in backEndPlayers) {
     const backEndPlayer = backEndPlayers[id]
 
@@ -23,7 +29,7 @@ socket.on('updatePlayers', (backEndPlayers) => {
         y: backEndPlayer.y,
         width: 50,
         height: 50,
-        src: "../img/mage.png"
+        src: "../img/barbarian.png"
       })
     } else {
       if (id === socket.id) {
@@ -91,6 +97,7 @@ const keys = {
   }
 }
 
+
 const SPEED = 10
 const playerInputs = []
 let sequenceNumber = 0
@@ -99,7 +106,8 @@ setInterval(() => {
     sequenceNumber++
     playerInputs.push({ sequenceNumber, dx: 0, dy: -SPEED })
     frontEndPlayers[socket.id].y -= SPEED
-    socket.emit('keydown', { keycode: 'KeyW', sequenceNumber })
+    socket.emit('keydown', { keycode: 'KeyW', sequenceNumber})
+    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.a.pressed) {
@@ -107,6 +115,7 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: -SPEED, dy: 0 })
     frontEndPlayers[socket.id].x -= SPEED
     socket.emit('keydown', { keycode: 'KeyA', sequenceNumber })
+    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.s.pressed) {
@@ -114,6 +123,7 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: 0, dy: SPEED })
     frontEndPlayers[socket.id].y += SPEED
     socket.emit('keydown', { keycode: 'KeyS', sequenceNumber })
+    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.d.pressed) {
@@ -121,8 +131,13 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: SPEED, dy: 0 })
     frontEndPlayers[socket.id].x += SPEED
     socket.emit('keydown', { keycode: 'KeyD', sequenceNumber })
+    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
-}, 15)
+},15)
+
+socket.on('eliminateLastImage', (player)=>{
+    console.log((player.x -15) + " / " + (player.y - 15)); 
+})
 
 window.addEventListener('keydown', (event) => {
   if (!frontEndPlayers[socket.id]) return

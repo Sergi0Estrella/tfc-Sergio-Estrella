@@ -24,6 +24,7 @@ const SPEED = 10
 let waitingPlayer = null;
 
 io.on('connection', (socket) => {
+
   if (waitingPlayer) {
     new RpsGame(waitingPlayer, socket);
     waitingPlayer = null;
@@ -66,6 +67,10 @@ io.on('connection', (socket) => {
         break
     }
   })
+
+  socket.on('eliminateLastImage', (player)=>{
+    io.emit('eliminateLastImage', player);
+  });
 
   // Escuchar evento de arrastre de un div
   socket.on('dragDiv', (data) => {
