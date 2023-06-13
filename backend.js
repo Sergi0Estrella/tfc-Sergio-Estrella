@@ -68,10 +68,6 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('eliminateLastImage', (player)=>{
-    io.emit('eliminateLastImage', player);
-  });
-
   // Escuchar evento de arrastre de un div
   socket.on('dragDiv', (data) => {
     // Emitir el evento a todos los demás clientes conectados

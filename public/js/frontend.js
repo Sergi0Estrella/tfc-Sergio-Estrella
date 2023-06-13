@@ -107,7 +107,6 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: 0, dy: -SPEED })
     frontEndPlayers[socket.id].y -= SPEED
     socket.emit('keydown', { keycode: 'KeyW', sequenceNumber})
-    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.a.pressed) {
@@ -115,7 +114,6 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: -SPEED, dy: 0 })
     frontEndPlayers[socket.id].x -= SPEED
     socket.emit('keydown', { keycode: 'KeyA', sequenceNumber })
-    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.s.pressed) {
@@ -123,7 +121,6 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: 0, dy: SPEED })
     frontEndPlayers[socket.id].y += SPEED
     socket.emit('keydown', { keycode: 'KeyS', sequenceNumber })
-    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 
   if (keys.d.pressed) {
@@ -131,13 +128,8 @@ setInterval(() => {
     playerInputs.push({ sequenceNumber, dx: SPEED, dy: 0 })
     frontEndPlayers[socket.id].x += SPEED
     socket.emit('keydown', { keycode: 'KeyD', sequenceNumber })
-    socket.emit('eliminateLastImage', frontEndPlayers[socket.id]);
   }
 },15)
-
-socket.on('eliminateLastImage', (player)=>{
-    console.log((player.x -15) + " / " + (player.y - 15)); 
-})
 
 window.addEventListener('keydown', (event) => {
   if (!frontEndPlayers[socket.id]) return
@@ -282,84 +274,96 @@ window.addEventListener('load',()=>{
       //Function to pop the chat on screen
   
       $('#chat-btn').click(function(){
-  
+
+        if(!document.getElementById("events")){
           const chatDiv = document.getElementById('chat');
   
-          const canvasDiv = document.getElementById('canvas1');
-  
-          canvasDiv.style.zIndex = -1;
-  
-          chatDiv.style.zIndex = 1;
-  
-          chatDiv.innerHTML = `<!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <title>RPS</title>
-              <link rel="stylesheet" href="styles/chat.css">
-            </head>
-            <body>
-              <div class="rps-wrapper">
-                <ul id="events"></ul>
-                <div class="controls">
-                  <div class="chat-wrapper">
-                    <form id="chat-form">
-                      <input id="text" autocomplete="off" title="chat"/>
-                      <button id="say">Say</button>
-                    </form>
-                  </div>
-          
-                  <div class="button-wrapper">
-                    <button id="rock" class="turn">Rock</button>
-                    <button id="paper" class="turn">Paper</button>
-                    <button id="scissors" class="turn">Scissors</button>
+            const canvasDiv = document.getElementById('canvas1');
+    
+            canvasDiv.style.zIndex = -1;
+    
+            chatDiv.style.zIndex = 1;
+    
+            chatDiv.innerHTML = `<!DOCTYPE html>
+            <html lang="en">
+              <head>
+                <title>RPS</title>
+                <link rel="stylesheet" href="styles/chat.css">
+              </head>
+              <body>
+                <div class="rps-wrapper">
+                  <span id='close'>X</span>
+                  <ul id="events"></ul>
+                  <div class="controls">
+                    <div class="chat-wrapper">
+                      <form id="chat-form">
+                        <input id="text" autocomplete="off" title="chat"/>
+                        <button id="say">Say</button>
+                      </form>
+                    </div>
+            
+                    <div class="button-wrapper">
+                      <button id="rock" class="turn">Rock</button>
+                      <button id="paper" class="turn">Paper</button>
+                      <button id="scissors" class="turn">Scissors</button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </body>
+            </html>`;
     
-            </body>
-          </html>`;
-  
-          const writeEvent = (text) => {
-            // <ul> element
-            const parent = document.querySelector('#events');
-          
-            // <li> element
-            const el = document.createElement('li');
-            el.innerHTML = text;
-          
-            parent.appendChild(el);
-          };
-          
-          const onFormSubmitted = (e) => {
-            e.preventDefault();
-          
-            const input = document.querySelector('#text');
-            const text = input.value;
-            input.value = '';
-          
-            socket.emit('message', text);
-          };
-          
-          const addButtonListeners = () => {
-            ['rock', 'paper', 'scissors'].forEach((id) => {
-              const button = document.getElementById(id);
-              button.addEventListener('click', () => {
-                socket.emit('turn', id);
+            const writeEvent = (text) => {
+              // <ul> element
+              const parent = document.querySelector('#events');
+            
+              // <li> element
+              const el = document.createElement('li');
+              el.innerHTML = text;
+            
+              parent.appendChild(el);
+            };
+            
+            const onFormSubmitted = (e) => {
+              e.preventDefault();
+            
+              const input = document.querySelector('#text');
+              const text = input.value;
+              input.value = '';
+            
+              socket.emit('message', text);
+            };
+            
+            const addButtonListeners = () => {
+              ['rock', 'paper', 'scissors'].forEach((id) => {
+                const button = document.getElementById(id);
+                button.addEventListener('click', () => {
+                  socket.emit('turn', id);
+                });
               });
-            });
-          };
-          
-          writeEvent('Welcome to RPS');
-      
-          socket.on('message', writeEvent);
-          
-          document
-            .querySelector('#chat-form')
-            .addEventListener('submit', onFormSubmitted);
-          
-          addButtonListeners();
-  
-        })
+            };
+            
+            writeEvent('Welcome to RPS');
+        
+            socket.on('message', writeEvent);
+            
+            document
+              .querySelector('#chat-form')
+              .addEventListener('submit', onFormSubmitted);
+            
+            addButtonListeners();
+
+            function cerrarChat() {
+              console.log("si");
+              var chatDiv = document.getElementById("chat");
+              chatDiv.style.visibility = "hidden";
+            }
+
+            document.getElementById("close").addEventListener("click",cerrarChat)
+        }else{
+          var chatDiv = document.getElementById("chat");
+          chatDiv.style.visibility = "visible";
+        }
+      })
   
         //Function that allows the user to change the current map
         $('#changeMap-btn').click(function() {
