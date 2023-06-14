@@ -13,7 +13,7 @@ const port = 3000
 
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+app.get('/juego', (req, res) => {
   res.sendFile(__dirname + '/juego.html')
 })
 
