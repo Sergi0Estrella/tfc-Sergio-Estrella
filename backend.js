@@ -21,13 +21,14 @@ const { Server } = require('socket.io')
 const io = new Server(server, { pingInterval: 2000, pingTimeout: 5000 })
 
 const RpsGame = require('./rps-game');
+const { dirname } = require('path');
 
 const port = 3000
 
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  res.sendFile("C:/Users/seestrella/Desktop/tfc-Sergio-Estrella/public/index.html");
+  res.sendFile(__dirname + "/index.html");
 })
 
 const backEndPlayers = {}
