@@ -28,8 +28,8 @@ const port = 3000
 
 app.use(express.static('public'))
 
-app.get('/index', (req, res) => {
-  res.redirect("https://tfc-dice-dungeons-production.up.railway.app/");
+app.get('/', (req, res) => {
+  res.sendFile("C:/Users/seestrella/Desktop/tfc-Sergio-Estrella/public/index.html");
 })
 
 const backEndPlayers = {}
