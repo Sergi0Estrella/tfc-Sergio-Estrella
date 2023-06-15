@@ -3,7 +3,7 @@ const app = express()
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
-const uri = 'mongodb://mongo:NxxdLQYCxK3oi7iW2DeX@containers-us-west-130.railway.app:7964';
+const uri = 'mongodb://mongo:V7IjruWXb5qSjeY2aU7A@containers-us-west-134.railway.app:6334';
 const client = new MongoClient(uri);
 
 client.connect((error) => {
