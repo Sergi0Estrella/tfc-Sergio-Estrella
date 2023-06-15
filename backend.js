@@ -4,7 +4,7 @@ const cors = require('cors')
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
-const uri = 'mongodb://mongo:AGhLs3Q4PxBgUwoKpZIY@containers-us-west-21.railway.app:5452';
+const uri = 'mongodb://mongo:NxxdLQYCxK3oi7iW2DeX@containers-us-west-130.railway.app:7964';
 const client = new MongoClient(uri);
 
 client.connect((error) => {
@@ -14,6 +14,7 @@ client.connect((error) => {
     console.log('Successful connection to the database');
   }
 });
+
 app.use(cors)
 // socket.io setup
 const http = require('http')
