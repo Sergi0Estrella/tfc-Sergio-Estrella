@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const cors = require('cors')
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
@@ -15,7 +14,6 @@ client.connect((error) => {
   }
 });
 
-app.use(cors)
 // socket.io setup
 const http = require('http')
 const server = http.createServer(app)
