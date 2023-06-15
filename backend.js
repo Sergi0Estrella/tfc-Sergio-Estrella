@@ -26,7 +26,7 @@ const port = 3000
 
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
+app.get('/index', (req, res) => {
   res.redirect("https://tfc-dice-dungeons-production.up.railway.app/index.html");
 })
 
