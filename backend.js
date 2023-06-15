@@ -27,7 +27,7 @@ const port = 3000
 app.use(express.static('public'))
 
 app.get('/index', (req, res) => {
-  res.redirect("https://tfc-dice-dungeons-production.up.railway.app/index.html");
+  res.redirect("https://www.youtube.com/watch?v=YkEkKIFFE9Q");
 })
 
 const backEndPlayers = {}
