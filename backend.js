@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
 const { MongoClient } = require('mongodb');
+const bodyParser = require('body-parser');
 
-const uri = 'mongodb://mongo:P4B02h6DyPKiwlD6yoeY@containers-us-west-40.railway.app:6837';
+const uri = 'mongodb://mongo:AGhLs3Q4PxBgUwoKpZIY@containers-us-west-21.railway.app:5452';
 const client = new MongoClient(uri);
 
 client.connect((error) => {
@@ -119,6 +120,28 @@ app.get("/juego", (req,res)=>{
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+// Configurar body-parser para analizar los datos de las solicitudes POST
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Manejar la solicitud de inicio de sesión
+app.post('/login', (req, res) => {
+  const email = req.body.loginemail;
+  const password = req.body.loginPassword;
+
+  // Realizar la lógica de autenticación y recuperar los datos del usuario desde la base de datos
+  // Aquí puedes utilizar el cliente de MongoDB u otra forma de acceder a los datos del usuario
+
+  // Ejemplo de verificación de inicio de sesión básica
+  if (email === 'usuario@example.com' && password === 'contraseña') {
+    // Inicio de sesión exitoso
+    res.send('Inicio de sesión exitoso');
+  } else {
+    // Credenciales inválidas
+    res.status(401).send('Credenciales inválidas');
+  }
+});
 
 // Ejemplo de añadir un documento a una colección
 app.post('/usuarios', async (req, res) => {

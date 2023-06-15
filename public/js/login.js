@@ -116,7 +116,7 @@ $(document).ready(function () {
         var nombre = $("#name").val();
         var contrasena = $("#password").val();
     
-        $.post('https://tfc-dice-dungeons-production.up.railway.app:3000/usuario',{
+        $.post('mongodb://mongo:AGhLs3Q4PxBgUwoKpZIY@containers-us-west-21.railway.app:5452',{
             "identificador": email,
             "nombre": nombre,
             "password": contrasena,
