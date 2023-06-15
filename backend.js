@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
@@ -13,7 +14,7 @@ client.connect((error) => {
     console.log('Successful connection to the database');
   }
 });
-
+app.use(cors)
 // socket.io setup
 const http = require('http')
 const server = http.createServer(app)
